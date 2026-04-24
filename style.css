@@ -1,0 +1,1324 @@
+/* --- CONFIGURAÇÕES GERAIS E TRANSICÃO DE TEMA --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    transition: background 0.4s ease, color 0.4s ease;
+    background: #f1f5f9;
+    color: #1e293b;
+    overflow-x: hidden;
+    padding-top: 70px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* --- ANIMAÇÕES (Keyframes) --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 123, 232, 0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(76, 123, 232, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 123, 232, 0); }
+}
+
+.animar-entrada {
+    animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animar-entrada-atraso {
+    animation: fadeInUp 0.7s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+/* --- MENU --- */
+.menu { 
+    position: fixed; /* Faz o menu ficar parado no topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #1e293b; 
+    padding: 15px 0; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Sombra para dar profundidade */
+    z-index: 1000; /* Garante que ele fique acima de tudo */
+    transition:all .3s ease;
+    transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+.menu.topo {
+    background: #1e293b;
+}
+.menu.scroll {
+    background: rgba(30, 41, 59, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.menu-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateZ(0);
+}
+
+.menu nav a { 
+    color: #cbd5e1; 
+    margin-left: 20px; 
+    text-decoration: none; 
+    font-size: 14px; 
+    transition: 0.3s;
+}
+.menu nav a:hover { color: #3b82f6; }
+.logo { color: white; margin: 0; font-weight: 800; }
+
+.botaoTema {
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+.botaoTema:active { transform: scale(0.9); }
+
+/* --- LAYOUT CENTRALIZADO E LARGURA --- */
+.secao-principal {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    width: 100%;
+}
+
+.layout {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px;
+    width: 100%; 
+    margin: 0 auto; 
+    padding: 60px 20px;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+.coluna-calculadora { flex: 1.3; min-width: 320px; width: 100%; }
+.coluna-texto {
+    flex: 0.7;
+    min-width: 300px;
+}
+.coluna-texto p { line-height: 1.7; color: #475569; }
+
+/* --- CARD E SOMBRAS --- */
+.card {
+    padding: 35px;
+    border-radius: 24px;
+    background: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06), 0 5px 15px rgba(0,0,0,0.04);
+    border: 1px solid rgba(255,255,255,0.8);
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Garante padding correto */
+}
+
+.card h1 { margin-top: 0; font-size: 26px; letter-spacing: -0.5px; }
+
+.campo { margin-top: 22px; width: 100%; }
+.campo label { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 8px; 
+    font-weight: 600; 
+    font-size: 14px; 
+}
+
+/* TOOLTIP ESTILIZADO */
+.help-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    background-color: #94a3b8;
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: help;
+    margin-left: 8px;
+    transition: 0.3s;
+}
+.help-icon:hover { background-color: #4c7be8; }
+
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #1e293b;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 12px;
+    position: absolute;
+    z-index: 10;
+    bottom: 160%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-weight: normal;
+    font-size: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.help-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* INPUTS E SELECTS UNIFICADOS (Garante mesmo tamanho) */
+input, select {
+    width: 100%;
+    height: 48px;
+    padding: 10px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: 0.3s;
+    background: #f8fafc;
+    box-sizing: border-box; /* Crucial para o tamanho unificado */
+}
+input:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* CHECKBOX */
+.campo-check {
+    margin: 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.checkbox-container input {
+    width: 20px;
+    height: 20px;
+    accent-color: #4c7be8;
+}
+.label-text { 
+    font-size: 14px; 
+    color: #1e293b; /* cor padrão (modo claro) */
+    user-select: none; 
+}
+body.dark .label-text {
+    color: #f1f5f9;
+}
+/* BOTÃO CALCULAR */
+.botaoCalcular {
+    width: 100%;
+    background: #4c7be8;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: 0.3s;
+    animation: pulse 2.5s infinite;
+}
+.botaoCalcular:hover { 
+    background: #2563eb; 
+    transform: translateY(-2px);
+    animation: none;
+}
+
+/* RESULTADOS */
+.resultado { 
+    margin-top: 30px; 
+    padding: 20px; 
+    border-radius: 16px; 
+    background: #f1f5f9; 
+    border: 1px solid #e2e8f0; 
+}
+.resultado-titulo { display: flex; justify-content: space-between; font-size: 11px; color: #64748b; margin-top: 15px; text-transform: uppercase; font-weight: 700; }
+.resultado-linha { display: flex; justify-content: space-between; padding: 12px 0; font-weight: 600; border-bottom: 1px solid #e2e8f0; }
+.destaque { color: #3b82f6; border-bottom: none; font-size: 22px; padding-top: 15px; }
+
+/* SEÇÃO TABELA E IMAGEM */
+.secao-tabela { padding: 80px 20px; text-align: center; background: #fff; width: 100%; display: flex; justify-content: center; }
+.imagemTabela { 
+    display: block; 
+    margin: 40px auto;
+    width: 100%; 
+    max-width: 100%; 
+    height: auto;
+    border-radius: 20px; 
+    box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.imagemTabela:hover {
+    transform: scale(1.03) translateY(-10px);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.18);
+}
+
+/* FOOTER */
+.footer { 
+    text-align: center; 
+    padding: 50px; 
+    background: #1e293b; 
+    color: #94a3b8; 
+    width: 100%; 
+}
+
+/* --- DARK MODE --- */
+body.dark { background: #0f172a; color: #f1f5f9; }
+body.dark .card { background: #1e293b; border-color: #334155; box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+body.dark .coluna-texto p { color: #94a3b8; }
+body.dark input, body.dark select { background: #0f172a; color: white; border-color: #334155; }
+body.dark .resultado { background: #020617; border-color: #334155; }
+body.dark .resultado-linha { border-color: #334155; }
+body.dark .destaque { color: #4ade80; }
+body.dark .secao-tabela { background: #0f172a; }
+body.dark .imagemTabela { box-shadow: 0 30px 70px rgba(0,0,0,0.6); }
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .secao-principal, .secao-tabela, .footer { width: 100%; box-sizing: border-box; }
+    .layout { padding: 40px 20px; gap: 40px; max-width: 100%; }
+    .coluna-calculadora, .coluna-texto { flex: 100%; width: 100%; }
+    .card { padding: 20px; }
+    .botaoCalcular { animation: none; }
+}
+/* --- FOOTER SIMPLIFICADO --- */
+.footer {
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: 50px 20px 40px;
+    margin-top: 80px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-container {
+    max-width: 900px; /* Mantém o alinhamento de 900px da calculadora */
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.footer-col.centralizado {
+    text-align: center;
+    max-width: 600px;
+}
+
+.footer-col h3.logo-footer {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.footer-col p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* LINHA INFERIOR */
+.footer-bottom {
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    padding-top: 25px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* AJUSTE DARK MODE */
+body.dark .footer {
+    background: #020617;
+}
+/* Container para os dois checkboxes ficarem lado a lado */
+.grupo-checkbox {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 25px 0;
+}
+
+/* Alinhamento de cada item (checkbox + texto) */
+.item-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Classe para o campo de FCP começar escondido */
+.fcp-input-oculto {
+    display: none;
+    margin-top: 10px;
+}
+
+/* Animação suave quando o campo aparecer (opcional, já que você tem keyframes) */
+#campoFCPInput {
+    animation: fadeInUp 0.4s ease;
+}
+/* --- CHECKBOX CIRCULAR PERFEITO --- */
+.campo-check {
+    margin: 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.checkbox-container {
+    display: inline-flex; /* Mudado para inline-flex para não esticar */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 22px; 
+    height: 22px;
+    flex-shrink: 0; /* Impede que o container achate */
+}
+
+.checkbox-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px; /* Tamanho fixo */
+    height: 20px; /* Tamanho fixo */
+    border: 2.5px solid #475569; 
+    border-radius: 50%; /* Garante o círculo */
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0; /* Impede que o input fique oval */
+    box-sizing: border-box;
+}
+
+/* Quando marcado: Fundo escuro */
+.checkbox-container input[type="checkbox"]:checked {
+    background: #1e293b; 
+    border-color: #1e293b;
+}
+
+/* O "ponto final" branco dentro */
+.checkbox-container input[type="checkbox"]:checked::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* --- AJUSTE DARK MODE (MAIS ESCURO E VISÍVEL) --- */
+body.dark .checkbox-container input[type="checkbox"] {
+    background: #0f172a;
+    border-color: #64748b; /* Borda mais visível no escuro */
+}
+
+body.dark .checkbox-container input[type="checkbox"]:checked {
+    background: #4c7be8; /* Azul destaque para o ponto final */
+    border-color: #4c7be8;
+}
+/* Ajuste para o seletor de FCP aparecer ao lado */
+#fcp_select {
+    border-radius: 8px;
+    font-size: 13px;
+    border: 2px solid #475569;
+    background: #fff;
+    cursor: pointer;
+    animation: fadeInSlide 0.3s ease;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+body.dark #fcp_select {
+    background: #1e293b;
+    color: #fff;
+    border-color: #64748b;
+}
+@media (max-width: 1024px) {
+    .layout {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .coluna-calculadora,
+    .coluna-texto {
+        width: 100%;
+        max-width: 700px;
+        flex: none;
+    }
+    .imagemTabela {
+        max-width: 100%;
+        height: auto;
+    }
+}
+/* Ajuste específico para o ícone dentro da área de resultados */
+.resultado-linha span .help-icon {
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* Garante que o tooltip não fique cortado se o card for pequeno */
+.resultado {
+    position: relative; 
+}
+.secao-explicao {
+    padding: 60px 20px;
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+}
+
+body.dark .secao-explicao {
+    background: #0f172a;
+}
+
+.container-texto {
+    max-width: 900px;
+    width: 100%;
+    line-height: 1.8;
+}
+
+.grid-explicao {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.formula-box {
+    background: #e2e8f0;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    margin: 40px 0;
+}
+
+body.dark .formula-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.formula {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2563eb;
+    margin: 15px 0;
+}
+
+body.dark .formula {
+    color: #4ade80;
+}
+
+@media (max-width: 768px) {
+    .grid-explicao {
+        grid-template-columns: 1fr;
+    }
+}
+/* MODAL IMAGEM (ZOOM) */
+.modal-imagem {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding: 20px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.conteudo-modal {
+    max-width: 95%;
+    max-height: 90%;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+    transform-origin: center center;
+    cursor: zoom-in;
+    touch-action: none; /* importante pro mobile */
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fechar-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* cursor de clique na imagem */
+.imagemTabela {
+    cursor: zoom-in;
+}
+/* BOTÃO HAMBURGUER */
+.menu-toggle {
+    display: block;
+    font-size: 22px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    z-index: 1050;
+}
+
+.overlay.ativo {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* MENU LATERAL */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: #1e293b;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1100;
+}
+
+
+.side-menu.ativo {
+    left: 0;
+}
+.side-menu.ativo ~ #menuSensor {
+    pointer-events: none;
+}
+/* --- ESTILIZAÇÃO DO CONTEÚDO DO MENU LATERAL --- */
+.side-menu a {
+    color: #cbd5e1; /* Cor cinza clara */
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    display: block;
+}
+
+.side-menu a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    padding-left: 20px; /* Efeito de deslize no hover */
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 0;
+}
+
+/* Estilo do botão de alternar tema dentro do menu */
+.menu-item {
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.menu-item:hover {
+    background: #475569;
+}
+
+/* Ajuste para o botão hambúrguer não sumir no topo */
+.menu-toggle {
+    transition: transform 0.2s;
+}
+.menu-toggle:active {
+    transform: scale(0.9);
+}
+/* --- BOTÃO DE FECHAR NO MENU --- */
+.fechar-menu {
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    font-size: 24px;
+    cursor: pointer;
+    align-self: flex-end; /* Joga a seta para a direita */
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fechar-menu:hover {
+    color: #ffffff;
+    transform: translateX(5px); /* Pequeno movimento para a direita */
+}
+
+/* Garante que o menu lateral use flexbox para alinhar a seta */
+.side-menu {
+    display: flex;
+    flex-direction: column;
+}
+.menu-sensor {
+    position: fixed;
+    top: 0;
+    width: 80px;
+    height: 100vh;
+    z-index: 1200;
+    background: transparent;
+}
+.side-menu {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ajuste para o menu lateral ser fluido */
+.side-menu {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s ease;
+    z-index: 1100; /* Acima do sensor e do header fixo */
+}
+
+/* Opcional: destaque visual quando o menu está aberto */
+.side-menu.ativo {
+    box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+}
+/* Sensor posicionado sobre o ícone */
+.sensor-inteligente {
+    position: absolute;
+    left: 10px; /* Alinhado ao início do container */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;  /* Área de detecção lateral */
+    height: 60px; /* Área de detecção vertical */
+    background: transparent; /* Invisível */
+    z-index: 101; /* Acima do botão para detectar o mouse antes */
+    cursor: pointer;
+}
+
+/* Ajuste para o container do menu permitir o posicionamento absoluto do sensor */
+.menu-container {
+    position: relative;
+}
+/* Faixa de ativação vertical alinhada ao ícone */
+.sensor-vertical {
+    position: fixed;
+    top: 0;
+    /* Ajuste este valor para alinhar exatamente com o seu ícone */
+    left: 15px; 
+    width: 40px; /* Largura da "zona de detecção" */
+    height: 100vh;
+    background: transparent; /* Mude para rgba(255,0,0,0.1) se quiser ver onde ela está para testar */
+    z-index: 1050;
+}
+
+/* Garante que o menu lateral tenha prioridade de clique quando aberto */
+.side-menu.ativo {
+    z-index: 1100;
+}
+.menu-texto {
+    font-size: 18px;
+    color: #cbd5e1;
+}
+/* MENU DESKTOP */
+.menu-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.menu-links a:hover {
+    color: #3b82f6;
+}
+
+/* BOTÃO MOBILE ESCONDIDO NO DESKTOP */
+.menu-toggle {
+    display: none;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .menu-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 24px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+}
+.aviso-footer {
+    margin: 20px auto 10px;
+    max-width: 700px;
+    text-align: center;
+}
+
+.aviso-footer p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+body.dark .aviso-footer p {
+    color: #94a3b8;
+}
+.secao-seo {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    background: #ffffff;
+}
+
+body.dark .secao-seo {
+    background: #020617;
+}
+
+.secao-seo .container-texto {
+    max-width: 900px;
+    line-height: 1.7;
+}
+
+.secao-seo h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.secao-seo h3 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.secao-seo p {
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+body.dark .secao-seo p {
+    color: #94a3b8;
+}
+
+.secao-seo ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.secao-seo li {
+    margin-bottom: 5px;
+}
+.politica-privacidade {
+    margin-top: 10px;
+}
+
+/* remove setas */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+.input-number{
+position:relative;
+}
+
+.input-number input{
+padding-right:55px;
+}
+
+.input-arrows{
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+flex-direction:column;
+gap:2px;
+}
+
+.input-arrows button{
+width:24px;
+height:16px;
+border-radius:4px;
+border:1px solid var(--borda);
+background:var(--card);
+color:var(--texto);
+cursor:pointer;
+font-size:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:all .15s ease;
+}
+
+.input-arrows button:hover{
+background:var(--primaria);
+color:white;
+transform:scale(1.05);
+}
+
+.input-arrows button:active{
+transform:scale(.95);
+}
+.input-arrows{
+opacity:0;
+transform:translateY(-50%) translateX(5px);
+pointer-events:none;
+transition:all .15s ease;
+}
+
+.input-number:focus-within .input-arrows{
+opacity:1;
+transform:translateY(-50%) translateX(0);
+pointer-events:auto;
+}
+.escondido {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: .3s;
+}
+
+.mostrar {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+.secao-seo {
+    padding: 60px 20px;
+    background: #f8fafc;
+}
+
+.container-texto {
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.secao-seo h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.secao-seo h3 {
+    margin-top: 25px;
+}
+.footer-links {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+@media (max-width: 768px) {
+    .logo {
+        font-size: 26px; /* reduz o título no mobile */
+    }
+}
+.secao-outras {
+    padding: 80px 20px;
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+}
+
+body.dark .secao-outras {
+    background: #0f172a;
+}
+
+.container-outras {
+    max-width: 950px;
+    width: 100%;
+    text-align: center;
+}
+
+.container-outras h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.container-outras p {
+    color: #64748b;
+}
+
+/* GRID MELHORADO */
+.grid-calculadoras {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 35px;
+
+    max-width: 1000px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 0 20px;
+    align-items: stretch;
+}
+
+/* CARD MAIS “APP” */
+.card-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 24px;
+    border-radius: 20px;
+
+    background: white;
+    text-decoration: none;
+    color: #0f172a;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    border: 1px solid rgba(148,163,184,0.2);
+
+    transition: all 0.25s ease;
+    min-height: 170px;
+}
+
+.card-link:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    border-color: #3b82f6;
+}
+
+
+/* TAG pequena topo */
+.tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+
+    color: #3b82f6;
+    background: rgba(59,130,246,0.1);
+
+    padding: 4px 10px;
+    border-radius: 999px;
+
+    width: fit-content;
+    margin-bottom: 12px;
+}
+
+/* título */
+.card-link h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-link p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
+/* CTA estilo botão leve */
+.cta {
+    margin-top: 18px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #3b82f6;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+/* DARK MODE */
+body.dark .card-link {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: rgba(148,163,184,0.15);
+}
+
+body.dark .card-link p {
+    color: #94a3b8;
+}
+
+body.dark .card-link:hover {
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 900px) {
+    .grid-calculadoras {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-calculadoras {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 0 16px;
+    }
+
+    .card-link {
+        padding: 20px;
+        border-radius: 16px;
+        min-height: auto;
+    }
+}
+/* BOTÃO FLUTUANTE */
+.btn-sugestao{
+position:fixed;
+right:20px;
+bottom:20px;
+display:flex;
+align-items:center;
+gap:8px;
+padding:12px 14px;
+border-radius:14px;
+background:linear-gradient(135deg,#3b82f6,#2563eb);
+color:white;
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+box-shadow:
+0 10px 25px rgba(0,0,0,0.15),
+0 5px 10px rgba(59,130,246,0.2);
+z-index:999;
+transition:all .25s ease;
+}
+
+/* hover */
+.btn-sugestao:hover{
+transform:translateY(-4px);
+box-shadow:
+0 20px 40px rgba(0,0,0,0.2),
+0 10px 20px rgba(59,130,246,0.25);
+}
+
+.btn-sugestao:active{
+transform:translateY(-1px);
+}
+/* efeito glow */
+.btn-sugestao::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:14px;
+background:linear-gradient(135deg,#3b82f6,#2563eb);
+opacity:.15;
+filter:blur(10px);
+z-index:-1;
+}
+
+/* MODAL */
+.modal-sugestao{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+/* BOX */
+.box-sugestao{
+background:white;
+width:90%;
+max-width:420px;
+border-radius:16px;
+padding:20px;
+}
+
+/* HEADER */
+.topo-sugestao{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:600;
+}
+
+.topo-sugestao button{
+background:none;
+border:none;
+font-size:18px;
+cursor:pointer;
+}
+
+/* TEXTAREA */
+.box-sugestao textarea{
+width:100%;
+height:120px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+padding:12px;
+resize:none;
+font-family:inherit;
+background:#f8fafc;
+transition:0.3s;
+}
+
+/* MESMA ANIMAÇÃO DO INPUT */
+.box-sugestao textarea:focus{
+outline:none;
+border-color:#3b82f6;
+background:white;
+box-shadow:0 0 0 4px rgba(59,130,246,0.1);
+}
+/* BOTÃO */
+.btn-enviar-sugestao{
+width:100%;
+margin-top:10px;
+background:#3b82f6;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* DARK MODE */
+body.dark .box-sugestao{
+background:#1e293b;
+color:white;
+}
+
+body.dark textarea,
+body.dark input{
+background:#0f172a;
+color:white;
+border-color:#334155;
+}
+body.dark .box-sugestao textarea{
+background:#0f172a;
+color:white;
+border-color:#334155;
+}
+
+body.dark .box-sugestao textarea:focus{
+border-color:#3b82f6;
+box-shadow:0 0 0 4px rgba(59,130,246,0.15);
+}
+.msg-sucesso{
+display:none;
+margin-top:10px;
+background:#22c55e;
+color:white;
+padding:10px;
+border-radius:10px;
+font-size:14px;
+text-align:center;
+animation:fadeInUp .3s ease;
+}
+body.dark .msg-sucesso{
+background:#16a34a;
+}
+.container-outras {
+    max-width: 1000px;
+    margin: 0 auto;
+
+}
+
+.titulo-calculadoras {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.grid-calculadoras {
+    text-align: left;
+}
