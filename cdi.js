@@ -8,7 +8,6 @@ let periodo = parseInt(document.getElementById("periodo").value) || 0;
 let valor = valorInicial;
 let totalAportes = 0;
 
-// converter CDI anual para mensal
 let taxaMensal = Math.pow(1 + (taxaAnual / 100), 1/12) - 1;
 
 for (let i = 0; i < periodo; i++) {
@@ -20,7 +19,6 @@ for (let i = 0; i < periodo; i++) {
 let totalInvestido = valorInicial + totalAportes;
 let totalJuros = valor - totalInvestido;
 
-// mostrar resultados
 document.getElementById("valorInicialRes").innerText =
 valorInicial.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 
@@ -36,7 +34,6 @@ totalJuros.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 document.getElementById("valorFinal").innerText =
 valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 
-// mostrar blocos
 if (totalAportes > 0) {
 document.getElementById("tituloAportes").style.display = "flex";
 document.getElementById("linhaAportes").style.display = "flex";
